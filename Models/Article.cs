@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Models
 {
@@ -23,7 +24,7 @@ namespace Models
         /// <summary>
         /// 标签
         /// </summary>
-        public string Tag { get; set; }
+        public List<Tag> Tag { get; set; } = new List<Tag>();
 
         /// <summary>
         /// 内容

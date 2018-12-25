@@ -32,7 +32,7 @@ namespace Contracts.DTO
         /// <summary>
         /// 标签
         /// </summary>
-        public string Tag { get; set; }
+        public List<TagDTO> Tag { get; set; }
 
         /// <summary>
         /// 内容
