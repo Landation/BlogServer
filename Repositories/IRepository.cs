@@ -17,6 +17,8 @@ namespace Repositories
 
         Task<IEnumerable<T>> GetAll();
 
+        Task<bool> Exist(Expression<Func<T, bool>> predicate);
+
         Task<IEnumerable<T>> FindAll(Expression<Func<T, bool>> predicate);
 
         Task<T> Save(T entity);

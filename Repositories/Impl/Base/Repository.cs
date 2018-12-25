@@ -34,6 +34,12 @@ namespace Repositories.Impl
             return await _collection.Find(predicate).FirstOrDefaultAsync();
         }
 
+        public async Task<bool> Exist(Expression<Func<T, bool>> predicate)
+        {
+
+            return  await _collection.Find(predicate).AnyAsync();
+        }
+
         public virtual async Task<IEnumerable<T>> GetAll()
         {
             return await this._collection.Find(new BsonDocument()).ToListAsync();
@@ -67,6 +73,7 @@ namespace Repositories.Impl
             await _collection.InsertOneAsync( entity);
             return entity;
         }
+
 
 
 

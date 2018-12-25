@@ -21,6 +21,10 @@ namespace Contracts
                 .ForMember(d=>d.Author,op=>op.MapFrom<Comment>(s=> null));
             CreateMap<CommentDTO, Comment>();
 
+            CreateMap<TagDTO, Tag>();
+            CreateMap<Tag, TagDTO>();
+            CreateMap<HeroDTO, Hero>();
+            CreateMap<Hero, HeroDTO>();
         }
     }
 }

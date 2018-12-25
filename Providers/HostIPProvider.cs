@@ -12,8 +12,8 @@ namespace Providers
         Task<RemoteInfo> GetRemote(HttpRequest request);
     }
 
-    
-    public class HostIPProvider:IHostIPProvider
+
+    public class HostIPProvider : IHostIPProvider
     {
         private string _host;
         public HostIPProvider(AppSettings settings)
@@ -24,28 +24,33 @@ namespace Providers
 
         public async Task<RemoteInfo> GetRemote(HttpRequest request)
         {
-            var ip = "180.167.105.38";//RemoteUtils.IP(request);
-            var url = _host + $"?ip={ip}&position=true";
-
-            var response =await new HttpClient().GetAsync(url);
-
-            if (response.IsSuccessStatusCode)
+            var ip = RemoteUtils.IP(request);
+            var isIp = RemoteUtils.IsIPAddress(ip);
+            if (isIp)
             {
-                var json = await response.Content.ReadAsStringAsync();
-                var info = JsonConvert.DeserializeObject<IPInfo>(json);
-                return new RemoteInfo()
+                var url = _host + $"?ip={ip}&position=true";
+
+                var response = await new HttpClient().GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    Ip = info.ip,
-                    Agent = request.Headers["user-agent"],
-                    City=info.city,
-                    Country=info.country_name,
-                    Coordinate = new RemoteInfo.CoordinateInfo {
-                        Lat = info.lat,
-                        Lng = info.lng
-                    }
-                };
+                    var json = await response.Content.ReadAsStringAsync();
+                    var info = JsonConvert.DeserializeObject<IPInfo>(json);
+                    return new RemoteInfo()
+                    {
+                        Ip = info.ip,
+                        Agent = request.Headers["user-agent"],
+                        City = info.city,
+                        Country = info.country_name,
+                        Coordinate = new RemoteInfo.CoordinateInfo
+                        {
+                            Lat = info.lat,
+                            Lng = info.lng
+                        }
+                    };
+                }
             }
-            return null;     
+            return null;
         }
     }
 

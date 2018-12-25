@@ -57,13 +57,14 @@ namespace Host
             services.AddScoped<IArticleRepository,ArticleRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
-
+            services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<IHeroRepository, HeroRepository>();
 
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ICommentService, CommentService>();
-
-
+            services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IHeroService, HeroService>();
 
 
 
