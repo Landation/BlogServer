@@ -69,7 +69,6 @@ namespace Models
         /// <summary>
         /// 其他信息
         /// </summary>
-
         public MetaInfo Meta { get; set; } = new MetaInfo();
 
         public class MetaInfo {

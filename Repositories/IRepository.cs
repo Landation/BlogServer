@@ -27,5 +27,6 @@ namespace Repositories
 
         Task<T> Add(T entity);
 
+
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Providers;
 using Repositories.Impl;
 using Services;
 
@@ -52,14 +53,15 @@ namespace Host
 
             //注册服务
             services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
-
+            services.AddSingleton<IHostIPProvider,HostIPProvider>();
             services.AddScoped<IArticleRepository,ArticleRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
-
+            services.AddScoped<ICommentRepository, CommentRepository>();
 
 
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<ICommentService, CommentService>();
 
 
 

@@ -14,6 +14,7 @@ namespace Repositories.Impl
     {
         public ProjectRepository(IDatabaseFactory factory,AppSettings settings) : base(factory,settings)
         {
+
         }
 
 

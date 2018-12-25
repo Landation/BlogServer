@@ -3,6 +3,7 @@ using Common;
 using Common.CustomExceptions;
 using Contracts.DTO;
 using Models;
+using Providers;
 using Repositories.Impl;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace Services
         public ProjectService(IProjectRepository projectRepository)
         {
             _projectRepository = projectRepository;
+
         }
 
         public async Task<Project> AddProject(ProjectDTO dto)

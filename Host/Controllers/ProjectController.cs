@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Contracts.DTO;
 using Host.Attributes;
 using Microsoft.AspNetCore.Mvc;
+using Providers;
 using Services;
 
 namespace Host.Controllers
@@ -13,9 +14,12 @@ namespace Host.Controllers
     public class ProjectController : BaseController
     {
         private IProjectService _projectService;
-        public ProjectController(IProjectService projectService)
+        private IHostIPProvider _iPProvider;
+        public ProjectController(IProjectService projectService,IHostIPProvider iPProvider)
         {
             this._projectService = projectService;
+            this._iPProvider = iPProvider;
+
         }
         [HttpPost]
         public async Task<ActionResult> Post([FromBody]ProjectDTO dto)
@@ -28,7 +32,8 @@ namespace Host.Controllers
         public async Task<ActionResult> Get()
         {
             var result = await _projectService.GetAllProject();
-            return Ok(result);
+            var remote = await _iPProvider.GetRemote(Request);
+            return Ok(remote);
         }
 
         [HttpGet("{id}")]

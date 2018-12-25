@@ -13,6 +13,14 @@ namespace Contracts
         {
             CreateMap<Project,ProjectDTO>();
             CreateMap<ProjectDTO, Project>();
+
+            CreateMap<Article, ArticleDTO>();
+            CreateMap<ArticleDTO, Article>();
+
+            CreateMap<Comment, CommentDTO>()
+                .ForMember(d=>d.Author,op=>op.MapFrom<Comment>(s=> null));
+            CreateMap<CommentDTO, Comment>();
+
         }
     }
 }

@@ -8,10 +8,13 @@ namespace Common
     {
 
         public  MongoDBConfiguration MongoDB { get; set; }
+
+        public string IPHost { get; set; }
         public class MongoDBConfiguration
         {
             public string ConnectionString { get; set; }
             public string Database { get; set; }
+
         }
     }
 }

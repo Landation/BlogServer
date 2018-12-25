@@ -13,48 +13,47 @@ namespace Repositories.Impl
 
    public class Repository<T>:IRepository<T> where T:IEntity
     {
-        protected readonly IMongoDatabase _dbContext;
-        protected readonly IMongoCollection<T> _dbSet;
+        protected readonly IMongoDatabase _db;
+        protected readonly IMongoCollection<T> _collection;
         public Repository(IDatabaseFactory factory,AppSettings settings)
         {
             var config = settings.MongoDB;
-            _dbContext = factory.GetClient(config.ConnectionString).GetDatabase(config.Database);
-            _dbSet = _dbContext.GetCollection<T>(typeof(T).Name);
+            _db = factory.GetClient(config.ConnectionString).GetDatabase(config.Database);
+            _collection = _db.GetCollection<T>(typeof(T).Name);
         }
 
 
         public async Task<T> Get(string id)
         {
-            return  await this._dbContext.GetCollection<T>(typeof(T).Name).Find(x => x.Id.Equals(id)).FirstOrDefaultAsync();
+            return  await this._db.GetCollection<T>(typeof(T).Name).Find(x => x.Id.Equals(id)).FirstOrDefaultAsync();
         }
 
         public async Task<T> Find(Expression<Func<T, bool>> predicate)
         {
-            var collection = this._dbContext.GetCollection<T>(typeof(T).Name);
 
-            return await collection.Find(predicate).FirstOrDefaultAsync();
+            return await _collection.Find(predicate).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public virtual async Task<IEnumerable<T>> GetAll()
         {
-            return await this._dbContext.GetCollection<T>(typeof(T).Name).Find(new BsonDocument()).ToListAsync();
+            return await this._collection.Find(new BsonDocument()).ToListAsync();
         }
 
         public async Task<IEnumerable<T>> FindAll(Expression<Func<T, bool>> predicate)
         {
 
-            var collection = this._dbContext.GetCollection<T>(typeof(T).Name);
 
-            var listAsync = await collection.Find(predicate).ToListAsync();
+
+            var listAsync = await _collection.Find(predicate).ToListAsync();
 
             return listAsync;
         }
 
         public async Task<T> Save(T entity)
         {
-            var collection = this._dbContext.GetCollection<T>(typeof(T).Name);
 
-            await collection.ReplaceOneAsync(x => x.Id.Equals(entity.Id), entity, new UpdateOptions
+
+            await _collection.ReplaceOneAsync(x => x.Id.Equals(entity.Id), entity, new UpdateOptions
             {
                 IsUpsert = true
             });
@@ -64,8 +63,8 @@ namespace Repositories.Impl
 
         public async Task<T> Add(T entity)
         {
-            var collection = this._dbContext.GetCollection<T>(typeof(T).Name);
-            await collection.InsertOneAsync( entity);
+
+            await _collection.InsertOneAsync( entity);
             return entity;
         }
 
@@ -74,15 +73,15 @@ namespace Repositories.Impl
         
         public async Task<bool> Delete(string id)
         {
-            var collection = this._dbContext.GetCollection<T>(typeof(T).Name);
-            var result = await collection.DeleteOneAsync(x => x.Id.Equals(id));
+
+            var result = await _collection.DeleteOneAsync(x => x.Id.Equals(id));
             return result.DeletedCount > 0;
         }
 
         public async Task Delete(T entity)
         {
-            var collection = this._dbContext.GetCollection<T>(typeof(T).Name);
-            await collection.DeleteOneAsync(x => x.Id.Equals(entity.Id));
+
+            await _collection.DeleteOneAsync(x => x.Id.Equals(entity.Id));
         }
 
 
