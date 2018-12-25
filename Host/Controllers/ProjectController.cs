@@ -32,8 +32,7 @@ namespace Host.Controllers
         public async Task<ActionResult> Get()
         {
             var result = await _projectService.GetAllProject();
-            var remote = await _iPProvider.GetRemote(Request);
-            return Ok(remote);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
