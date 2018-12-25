@@ -16,7 +16,7 @@ namespace Repositories.Impl
 
         Task<Article> AddArticleLike(string id);
 
-
+        Task<Article> AddArticleComment(string id);
 
 
     }
@@ -72,6 +72,13 @@ namespace Repositories.Impl
         {
             var article =await Get(id);
             article.Meta.Likes += 1;
+            return await Save(article);
+        }
+
+        public async Task<Article> AddArticleComment(string id)
+        {
+            var article = await Get(id);
+            article.Meta.Comments += 1;
             return await Save(article);
         }
 

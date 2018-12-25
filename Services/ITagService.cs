@@ -29,7 +29,7 @@ namespace Services
         public async Task<TagDTO> Add(TagDTO dto)
         {
 
-            if (await _tagRepository.Exist(x => x.Name == dto.Name))
+            if (!await _tagRepository.Exist(x => x.Name == dto.Name))
             {
                 var tag = Mapper.Map<TagDTO, Tag>(dto);
                 await _tagRepository.Add(tag);

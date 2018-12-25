@@ -20,15 +20,18 @@ namespace Services
     public class CommentService : ICommentService
     {
         private ICommentRepository _commentRepository;
-        public CommentService(ICommentRepository commentRepository)
+        private IArticleRepository _articleRepository;
+        public CommentService(ICommentRepository commentRepository,IArticleRepository articleRepository)
         {
             _commentRepository = commentRepository;
+            _articleRepository = articleRepository;
         }
 
         public async Task<CommentDTO> AddComment(CommentDTO dto, RemoteInfo remote)
         {
             var comment = Mapper.Map<CommentDTO, Comment>(dto);
             comment.Remote = remote;
+            await _articleRepository.AddArticleComment(dto.PostId);
             await _commentRepository.Add(comment);
             return dto;
         }
