@@ -24,7 +24,7 @@ namespace Models
         /// <summary>
         /// 标签
         /// </summary>
-        public List<Tag> Tag { get; set; } = new List<Tag>();
+        public List<string> Tags { get; set; }
 
         /// <summary>
         /// 内容

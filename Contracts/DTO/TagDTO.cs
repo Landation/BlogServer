@@ -10,6 +10,10 @@ namespace Contracts.DTO
         public string Name { get; set; }
         public string Descript { get; set; }
 
+        /// <summary>
+        /// 标签的文章数目
+        /// </summary>
+        public int Count { get; set; }
     }
 
 }
