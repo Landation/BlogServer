@@ -14,14 +14,14 @@ using Microsoft.Extensions.Options;
 using Providers;
 using Repositories.Impl;
 using Services;
-
+using Rabbit.Extensions.Configuration;
 namespace Host
 {
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            Configuration = configuration.EnableTemplateSupport();
         }
 
         public IConfiguration Configuration { get; }
