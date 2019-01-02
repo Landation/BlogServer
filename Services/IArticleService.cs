@@ -25,6 +25,8 @@ namespace Services
         Task<ArticleDTO> AddArticleLike(string id);
 
         Task<ArticleDTO> AddArticle(ArticleDTO dto);
+        Task<IEnumerable<ArticleDTO>> GetArticlesByTag(string tag);
+
 
 
 
@@ -87,7 +89,12 @@ namespace Services
             return dto;
         }
 
-
+        public async Task<IEnumerable<ArticleDTO>> GetArticlesByTag(string tag)
+        {
+            var articles = await _articleRepository.FindAll(x=>x.Tag.Contains(tag));
+            var dtos = Mapper.Map<IEnumerable<Article>, IEnumerable<ArticleDTO>>(articles);
+            return dtos;
+        }
 
 
     }

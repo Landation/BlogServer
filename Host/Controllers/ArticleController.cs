@@ -14,7 +14,7 @@ namespace Host.Controllers
         public ArticleController(IArticleService articleService)
         {
             _articleService = articleService;
-            
+
         }
 
         [HttpPost]
@@ -28,7 +28,16 @@ namespace Host.Controllers
         [HttpGet]
         public async Task<ActionResult> Get()
         {
-            var result =await _articleService.GetArticleAll();
+            IEnumerable<ArticleDTO> result = null;
+            if (Request.Query["tag"].Any())
+            {
+                var tag = Request.Query["tag"].First();
+                result = await _articleService.GetArticlesByTag(tag);
+            }
+            else
+            {
+                result = await _articleService.GetArticleAll();
+            }
             return Ok(result);
         }
 
@@ -54,6 +63,8 @@ namespace Host.Controllers
             var result = await _articleService.AddArticleLike(id);
             return Ok(result);
         }
+
+
 
         [HttpGet("hot")]
         public async Task<ActionResult> GetHot()
