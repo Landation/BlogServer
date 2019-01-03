@@ -22,4 +22,5 @@ RUN dotnet publish "Host.csproj" -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
+ENV MONGO_HOST 127.0.0.1
 ENTRYPOINT ["dotnet", "Host.dll"]
