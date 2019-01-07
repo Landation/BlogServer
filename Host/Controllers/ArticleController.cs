@@ -26,9 +26,9 @@ namespace Host.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult> Get([FromQuery] string tag, [FromQuery]string id)
+        public async Task<ActionResult> Get([FromQuery] string tag, [FromQuery]string lastId)
         {
-            var result = await _articleService.GetNextArticles(id, tag);
+            var result = await _articleService.GetNextArticles(lastId, tag);
             return Ok(result);
         }
 
