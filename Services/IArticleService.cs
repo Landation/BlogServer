@@ -13,12 +13,8 @@ namespace Services
     {
         Task<IEnumerable<ArticleDTO>> GetArticleAll();
         Task<ArticleDTO> GetArticleById(string id);
-        Task<IEnumerable<ArticleDTO>> GetNextArticles(string lastId);
 
-
-
-
-
+        Task<IEnumerable<ArticleDTO>> GetNextArticles(string lastId,string tag);
         Task<IEnumerable<ArticleDTO>> GetHotArticles();
 
 
@@ -67,12 +63,22 @@ namespace Services
             return dto;
         }
 
-        public async Task<IEnumerable<ArticleDTO>> GetNextArticles(string lastId)
+
+        public async Task<IEnumerable<ArticleDTO>> GetNextArticles(string lastId,string tag)
         {
-            var articles = await _articleRepository.GetNextArticles(lastId);
+            IEnumerable<Article> articles = null;
+            if (!string.IsNullOrEmpty(tag))
+            {
+                articles = await _articleRepository.GetNextArticles(lastId, tag);
+            }
+            else
+            {
+                articles = await _articleRepository.GetNextArticles(lastId);
+            }
             var dtos = Mapper.Map<IEnumerable<Article>, IEnumerable<ArticleDTO>>(articles);
             return dtos;
         }
+
 
 
         public async Task<IEnumerable<ArticleDTO>> GetHotArticles()

@@ -26,20 +26,18 @@ namespace Host.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Get([FromQuery] string tag, [FromQuery]string id)
         {
-            IEnumerable<ArticleDTO> result = null;
-            if (Request.Query["tag"].Any())
-            {
-                var tag = Request.Query["tag"].First();
-                result = await _articleService.GetArticlesByTag(tag);
-            }
-            else
-            {
-                result = await _articleService.GetArticleAll();
-            }
+            var result = await _articleService.GetNextArticles(id, tag);
             return Ok(result);
         }
+
+
+
+
+
+
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult> Get([FromRoute]string id)
@@ -53,7 +51,7 @@ namespace Host.Controllers
         [HttpGet("next/{lastId}")]
         public async Task<ActionResult> GetNext([FromRoute]string lastId)
         {
-            var result = await _articleService.GetNextArticles(lastId);
+            var result = await _articleService.GetNextArticles(lastId, "");
             return Ok(result);
         }
 
