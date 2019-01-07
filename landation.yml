@@ -1,0 +1,44 @@
+version: '3.4'
+services:
+  db: 
+    image: mongo:4.0
+	volumes:
+	  - db-data:/data/db
+    restart: always
+    networks: 
+      - landation_network
+	ports:
+	  - "27017"
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 1
+  api: 
+    image: landation/blog-server:1.0.0
+    restart: always
+    networks: 
+      - landation_network
+    ports:
+      - "8888:80"
+    environment:
+      MONGO_HOST: db
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 2
+  web: 
+    image: landation/blog-ui:1.0.0
+    restart: always
+    ports:
+      - "80:80"
+    environment:
+      HOST: 0.0.0.0
+      PORT: 80
+    deploy:
+      restart_policy:
+        condition: on-failure
+      replicas: 3
+networks:
+  landation_network:
+volumes:
+  db-data:
