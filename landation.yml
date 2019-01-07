@@ -25,7 +25,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-      replicas: 2
+      replicas: 1
   web: 
     image: landation/blog-ui:1.0.0
     restart: always
@@ -37,7 +37,7 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-      replicas: 3
+      replicas: 1
 networks:
   landation_network:
 volumes:
